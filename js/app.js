@@ -21,16 +21,51 @@ function getMovies(url) {
 };
 
 function showMovies(data) {
+
     NEW_FILM_LIST.innerHTML = '';
 
     data.forEach(movie => {
-        const { title, poster_path, vote_average } = movie;
+        const { title, poster_path, vote_average, overview } = movie;
         const movieEl = document.createElement('li');
         movieEl.classList.add('new-films-item', 'swiper-slide');
-        movieEl.innerHTML = `
-            <img src="${POSTER_URL + poster_path}" alt="${title}">
-        `;
+        movieEl.innerHTML += //html
+            `
+        <div>
+            <div class="rating">
+                <div class="rating-inner">
+                <h3 class="rating-text">${vote_average}</h3>
+            </div>
 
-        NEW_FILM_LIST.appendChild(movieEl);
+            </div>
+                <img src="${POSTER_URL + poster_path}" alt="${title}">
+            <div class="overview">
+                <h2>${title}</h2>
+                <h4>Overview</h4>
+                </br>
+                <p>${overview}
+            </div>
+        </div>
+                    `;
+
+
+        NEW_FILM_LIST.append(movieEl);
+
+        changeRatingColor(vote_average);
     });
+}
+
+function changeRatingColor(vote_average) {
+    const RATING = document.querySelectorAll('.rating');
+
+    RATING.forEach(element => {
+
+        if (vote_average >= 8 && vote_average < 10) {
+            element.style.background = `conic-gradient(var(--conic-gradient-green) ${Math.ceil(vote_average * 36)}deg, rgb(183, 186, 205) 0deg)`;
+        } else if (vote_average >= 5 && vote_average < 8) {
+            element.style.background = `conic-gradient(var(--conic-gradient-yellow) ${vote_average * 36}deg, rgb(183, 186, 205) 0deg)`;
+        } else if (vote_average >= 0 && vote_average < 5) {
+            element.style.background = `conic-gradient(var(--conic-gradient-red) ${vote_average * 36}deg, rgb(183, 186, 205) 0deg)`;
+        }
+    });
+
 }

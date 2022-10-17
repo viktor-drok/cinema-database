@@ -7,6 +7,9 @@
     --text-color: #fff8dc;
     --border-color: #fff8dc4b;
     --font-family: 'Poppins', sans-serif;
+    --conic-gradient-green: rgb(0, 128, 0);
+    --conic-gradient-yellow: rgb(255, 255, 0);
+    --conic-gradient-red: rgb(255, 0, 0);
 }
 
 body {
@@ -82,4 +85,93 @@ body {
     left: 0;
     background: no-repeat url('../images/hero-background/star-wars-eclispe.jpg');
     background-size: cover;
+}
+
+.new-films-item {
+    display: flex;
+    justify-content: center;
+
+}
+
+.new-films-item > div {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: max-content;
+    background: linear-gradient(0deg, rgba(2, 0, 36, 1) 0%, rgba(0, 0, 0, 0.5662640056022409) 55%, rgba(255, 255, 255, 0) 100%);
+
+}
+
+.new-films-item h2 {
+    position: absolute;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    height: 20%;
+    font-size: 40px;
+}
+
+.overview {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 20px;
+    background: var(--body-color);
+    opacity: 0;
+    color: var(--text-color);
+    transform: translateY(101%);
+    transition: all 0.3s;
+}
+
+.overview h4 {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.overview p {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.7;
+    text-align: justify;
+}
+
+.new-films-item > div:hover .overview {
+    transform: translateY(0);
+    opacity: 0.8;
+}
+
+.rating {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 20px;
+    right: 20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+
+    /* background: conic-gradient(var(--conic-gradient-green) 216deg, rgb(183, 186, 205) 0deg); */
+}
+
+.rating-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--body-color);
 }
