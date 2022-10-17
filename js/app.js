@@ -31,6 +31,6 @@ function showMovies(data) {
             <img src="${POSTER_URL + poster_path}" alt="${title}">
         `;
 
-        NEW_FILM_LIST.append(movieEl);
+        NEW_FILM_LIST.appendChild(movieEl);
     });
 }
