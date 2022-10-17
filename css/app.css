@@ -17,6 +17,13 @@ body {
 
 /* header */
 
+#header {
+    position: absolute;
+    z-index: 5;
+    top: 30px;
+    left: 20px;
+}
+
 ::placeholder {
     color: var(--text-color);
 }
@@ -43,7 +50,12 @@ body {
     width: 100%;
 }
 
-.new-films img,
+.new-films img {
+    object-fit: contain;
+    width: 100%;
+    height: 100vh
+}
+
 .popular-films img,
 .top-week-films img {
     width: 100%;
@@ -55,4 +67,21 @@ body {
 .popular-films,
 .top-week-films {
     overflow: hidden;
+}
+
+.new-films {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+.new-films::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: no-repeat url('../images/hero-background/star-wars-eclispe.jpg');
+    background-size: cover;
 }
