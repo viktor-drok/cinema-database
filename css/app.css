@@ -1,0 +1,58 @@
+@import 'reset.css';
+@import url(https://fonts.googleapis.com/css?family=Poppins:regular,700);
+
+:root {
+    --body-color: #22254e;
+    --focus-color: #15162f;
+    --text-color: #fff8dc;
+    --border-color: #fff8dc4b;
+    --font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: var(--body-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+}
+
+/* header */
+
+::placeholder {
+    color: var(--text-color);
+}
+
+.search {
+    font-family: var(--font-family);
+    font-size: 20px;
+    background-color: transparent;
+    color: var(--text-color);
+    width: 200px;
+    height: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+
+.search:focus {
+    background: var(--focus-color);
+}
+
+/* main */
+
+.main {
+    width: 100%;
+}
+
+.new-films img,
+.popular-films img,
+.top-week-films img {
+    width: 100%;
+}
+
+/* hero-swiper */
+
+.new-films,
+.popular-films,
+.top-week-films {
+    overflow: hidden;
+}
