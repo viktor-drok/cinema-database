@@ -51,25 +51,24 @@ function showNewMovies(data) {
 
         NEW_FILM_LIST.append(movieEl);
 
-        setRatingColor(vote_average);
+        setRatingColor();
     });
 }
 
-function setRatingColor(vote) {
+function setRatingColor() {
     const RATING = document.querySelectorAll('.new-film-rating');
 
-    RATING.forEach(element => {
-
-        if (vote >= 8 && vote < 10) {
-            element.style.background = `conic-gradient(var(--conic-gradient-green) ${vote * 36}deg, rgb(183, 186, 205) 0deg)`;
-            element.style.background = `conic-gradient(var(--conic-gradient-green) ${vote * 36}deg, rgb(183, 186, 205) 0deg)`;
-        } else if (vote >= 5 && vote < 8) {
-            element.style.background = `conic-gradient(var(--conic-gradient-yellow) ${vote * 36}deg, rgb(183, 186, 205) 0deg)`;
-        } else if (vote >= 0 && vote < 5) {
-            element.style.background = `conic-gradient(var(--conic-gradient-red) ${vote * 36}deg, rgb(183, 186, 205) 0deg)`;
+    RATING.forEach(e => {
+        if (+e.innerText >= 8 && +e.innerText < 10) {
+            e.setAttribute('data-conic-green', 'green');
+        } else if (+e.innerText >= 5 && +e.innerText < 8) {
+            e.setAttribute('data-conic-yellow', 'yellow');
+        } else if (+e.innerText > 0 && +e.innerText < 5) {
+            e.setAttribute('data-conic-red', 'red');
+        } else {
+            e.innerText = 'N/R';
         }
     });
-
 }
 
 getPopularMovies(POPULAR_URL);
@@ -109,5 +108,23 @@ function showPopularMovies(data) {
         //             </br >
         //     <p>${ overview }</p>
         POPULAR_FILM_LIST.append(movieEl);
+        setColorRaitingPopular();
+
+    });
+}
+
+function setColorRaitingPopular() {
+    const POPULAR_TITLE = document.querySelectorAll('.popular-film-rating-text');
+
+    POPULAR_TITLE.forEach(e => {
+        if (+e.innerText >= 8 && +e.innerText < 10) {
+            e.setAttribute('data-green', 'green');
+        } else if (+e.innerText >= 5 && +e.innerText < 8) {
+            e.setAttribute('data-yellow', 'yellow');
+        } else if (+e.innerText > 0 && +e.innerText < 5) {
+            e.setAttribute('data-red', 'red');
+        } else {
+            e.innerText = 'N/R';
+        }
     });
 }

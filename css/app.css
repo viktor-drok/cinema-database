@@ -12,7 +12,29 @@
     --conic-gradient-red: rgb(255, 0, 0);
 }
 
-[data-green] {}
+[data-green="green"] {
+    color: var(--conic-gradient-green);
+}
+
+[data-yellow="yellow"] {
+    color: var(--conic-gradient-yellow);
+}
+
+[data-red="red"] {
+    color: var(--conic-gradient-red);
+}
+
+[data-conic-green="green"] {
+    background: conic-gradient(var(--conic-gradient-green) 216deg, rgb(183, 186, 205) 0deg);
+}
+
+[data-conic-yellow="yellow"] {
+    background: conic-gradient(var(--conic-gradient-yellow) 216deg, rgb(183, 186, 205) 0deg);
+}
+
+[data-conic-red="red"] {
+    background: conic-gradient(var(--conic-gradient-red) 216deg, rgb(183, 186, 205) 0deg);
+}
 
 body {
     background: var(--body-color);
