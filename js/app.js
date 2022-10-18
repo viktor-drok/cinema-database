@@ -10,17 +10,18 @@ const POPULAR_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_
 const POSTER_URL = 'https://image.tmdb.org/t/p/w500';
 
 const NEW_FILM_LIST = document.querySelector('.new-films-list');
+const POPULAR_FILM_LIST = document.querySelector('.popular-films-list');
 
-getMovies(NEW_FILMS_URL);
+getNewMovies(NEW_FILMS_URL);
 
-function getMovies(url) {
+function getNewMovies(url) {
     fetch(url).then(res => res.json()).then(data => {
-        console.log(data);
-        showMovies(data.results);
+        console.log('new', data);
+        showNewMovies(data.results);
     });
 };
 
-function showMovies(data) {
+function showNewMovies(data) {
 
     NEW_FILM_LIST.innerHTML = '';
 
@@ -28,44 +29,85 @@ function showMovies(data) {
         const { title, poster_path, vote_average, overview } = movie;
         const movieEl = document.createElement('li');
         movieEl.classList.add('new-films-item', 'swiper-slide');
-        movieEl.innerHTML += //html
-            `
-        <div>
-            <div class="rating">
-                <div class="rating-inner">
-                <h3 class="rating-text">${vote_average}</h3>
-            </div>
+        movieEl.innerHTML = /*html*/ `
+            <div>
+                <div class="new-film-rating">
+                    <div class="new-film-rating-inner">
+                        <h3 class="new-film-rating-text">${vote_average}</h3>
+                    </div>
 
-            </div>
+                </div>
+
                 <img src="${POSTER_URL + poster_path}" alt="${title}">
-            <div class="overview">
-                <h2>${title}</h2>
-                <h4>Overview</h4>
-                </br>
-                <p>${overview}
-            </div>
-        </div>
-                    `;
 
+                <div class="new-film-overview">
+                    <h2>"${title}"</h2>
+                    <h4>Overview</h4>
+                    </br>
+                    <p>${overview}</p>
+                </div>
+            </div>
+        `;
 
         NEW_FILM_LIST.append(movieEl);
 
-        changeRatingColor(vote_average);
+        setRatingColor(vote_average);
     });
 }
 
-function changeRatingColor(vote_average) {
-    const RATING = document.querySelectorAll('.rating');
+function setRatingColor(vote) {
+    const RATING = document.querySelectorAll('.new-film-rating');
 
     RATING.forEach(element => {
 
-        if (vote_average >= 8 && vote_average < 10) {
-            element.style.background = `conic-gradient(var(--conic-gradient-green) ${Math.ceil(vote_average * 36)}deg, rgb(183, 186, 205) 0deg)`;
-        } else if (vote_average >= 5 && vote_average < 8) {
-            element.style.background = `conic-gradient(var(--conic-gradient-yellow) ${vote_average * 36}deg, rgb(183, 186, 205) 0deg)`;
-        } else if (vote_average >= 0 && vote_average < 5) {
-            element.style.background = `conic-gradient(var(--conic-gradient-red) ${vote_average * 36}deg, rgb(183, 186, 205) 0deg)`;
+        if (vote >= 8 && vote < 10) {
+            element.style.background = `conic-gradient(var(--conic-gradient-green) ${vote * 36}deg, rgb(183, 186, 205) 0deg)`;
+            element.style.background = `conic-gradient(var(--conic-gradient-green) ${vote * 36}deg, rgb(183, 186, 205) 0deg)`;
+        } else if (vote >= 5 && vote < 8) {
+            element.style.background = `conic-gradient(var(--conic-gradient-yellow) ${vote * 36}deg, rgb(183, 186, 205) 0deg)`;
+        } else if (vote >= 0 && vote < 5) {
+            element.style.background = `conic-gradient(var(--conic-gradient-red) ${vote * 36}deg, rgb(183, 186, 205) 0deg)`;
         }
     });
 
+}
+
+getPopularMovies(POPULAR_URL);
+
+function getPopularMovies(url) {
+    fetch(url).then(res => res.json()).then(data => {
+        console.log('popular', data);
+        showPopularMovies(data.results);
+    });
+};
+
+function showPopularMovies(data) {
+    POPULAR_FILM_LIST.innerHTML = '';
+
+    data.forEach(movie => {
+        const { title, poster_path, vote_average, overview } = movie;
+        const movieEl = document.createElement('li');
+        movieEl.classList.add('popular-films-item', 'swiper-slide');
+        movieEl.innerHTML = /*html*/`
+            <div>
+                <div class="popular-film-rating">
+                    <div class="popular-film-rating-inner">
+                        <h3 class="popular-film-rating-text">${vote_average}</h3>
+                    </div>
+
+                </div>
+
+                <img src="${POSTER_URL + poster_path}" alt="${title}">
+
+                <div class="popular-film-overview">
+                    <h2>"${title}"</h2>
+                    <h4>Overview</h4>
+                    </br>
+                    <p>${overview}</p>
+                </div>
+            </div>
+        `;
+
+        POPULAR_FILM_LIST.append(movieEl);
+    });
 }
