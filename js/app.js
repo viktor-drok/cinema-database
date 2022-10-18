@@ -63,10 +63,8 @@ function setRatingColor() {
             e.setAttribute('data-conic-green', 'green');
         } else if (+e.innerText >= 5 && +e.innerText < 8) {
             e.setAttribute('data-conic-yellow', 'yellow');
-        } else if (+e.innerText > 0 && +e.innerText < 5) {
+        } else if (+e.innerText >= 0 && +e.innerText < 5) {
             e.setAttribute('data-conic-red', 'red');
-        } else {
-            e.innerText = 'N/R';
         }
     });
 }
@@ -123,7 +121,8 @@ function setColorRaitingPopular() {
             e.setAttribute('data-yellow', 'yellow');
         } else if (+e.innerText > 0 && +e.innerText < 5) {
             e.setAttribute('data-red', 'red');
-        } else {
+        } else if (+e.innerText == 0) {
+            e.setAttribute('data-red', 'red');
             e.innerText = 'N/R';
         }
     });
