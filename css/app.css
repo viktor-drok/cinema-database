@@ -182,12 +182,38 @@ body {
 /*popular swiper*/
 
 .popular-films-item {
-    display: flex;
-    flex-direction: column;
+    height: 45vh;
     background: var(--focus-color);
     border-radius: 10px;
+    padding-bottom: 15px;
+}
+
+.popular-films-item > div {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.popular-film-rating {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
 .popular-films-item img {
+    display: block;
     border-radius: 10px 10px 0 0;
+}
+
+.popular-film-overview {
+    text-align: center;
 }

@@ -101,13 +101,13 @@ function showPopularMovies(data) {
 
                 <div class="popular-film-overview">
                     <h2>"${title}"</h2>
-                    <h4>Overview</h4>
-                    </br>
-                    <p>${overview}</p>
                 </div>
             </div>
         `;
 
+        // <h4>Overview</h4>
+        //             </br >
+        //     <p>${ overview }</p>
         POPULAR_FILM_LIST.append(movieEl);
     });
 }
