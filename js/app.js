@@ -1,16 +1,20 @@
+import './expose.js';
 import { swiperHero } from "./swiper-hero.js";
-import { swiperPopular } from "./swiper-popular.js";
-import { topWeekFilms } from "./top-week-films.js";
+import { makeSwiperPopular } from "./swiper-popular.js";
 
 const API_KEY = 'api_key=bfdccbc25c964210432d186c297791bf';
 const BASE_URL = 'https://api.themoviedb.org/3'; ///discover/movie/
-const NEW_FILMS_URL = BASE_URL + '/movie/upcoming' + '?' + API_KEY;
+const NEW_FILMS_URL = BASE_URL + '/movie/now_playing' + '?' + API_KEY;
 const TOP_RAITED_URL = BASE_URL + '/movie/top_rated' + '?' + API_KEY;
 const POPULAR_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
 const POSTER_URL = 'https://image.tmdb.org/t/p/w500';
 
 const NEW_FILM_LIST = document.querySelector('.new-films-list');
 const POPULAR_FILM_LIST = document.querySelector('.popular-films-list');
+const LOOKING_MOVIES_LIST = document.querySelector('.looking-movies-list');
+let searchInput = document.querySelector('.search');
+
+let swiperPopular;
 
 getNewMovies(NEW_FILMS_URL);
 
@@ -48,9 +52,7 @@ function showNewMovies(data) {
                 </div>
             </div>
         `;
-
         NEW_FILM_LIST.append(movieEl);
-
         setRatingColor();
     });
 }
@@ -75,6 +77,8 @@ function getPopularMovies(url) {
     fetch(url).then(res => res.json()).then(data => {
         console.log('popular', data);
         showPopularMovies(data.results);
+        swiperPopular?.destroy();
+        swiperPopular = makeSwiperPopular();
     });
 };
 
@@ -82,7 +86,7 @@ function showPopularMovies(data) {
     POPULAR_FILM_LIST.innerHTML = '';
 
     data.forEach(movie => {
-        const { title, poster_path, vote_average, overview } = movie;
+        const { title, poster_path, vote_average } = movie;
         const movieEl = document.createElement('li');
         movieEl.classList.add('popular-films-item', 'swiper-slide');
         movieEl.innerHTML = /*html*/`
@@ -101,13 +105,8 @@ function showPopularMovies(data) {
                 </div>
             </div>
         `;
-
-        // <h4>Overview</h4>
-        //             </br >
-        //     <p>${ overview }</p>
         POPULAR_FILM_LIST.append(movieEl);
         setColorRaitingPopular();
-
     });
 }
 
@@ -115,6 +114,82 @@ function setColorRaitingPopular() {
     const POPULAR_TITLE = document.querySelectorAll('.popular-film-rating-text');
 
     POPULAR_TITLE.forEach(e => {
+        if (+e.innerText >= 8 && +e.innerText < 10) {
+            e.setAttribute('data-green', 'green');
+        } else if (+e.innerText >= 5 && +e.innerText < 8) {
+            e.setAttribute('data-yellow', 'yellow');
+        } else if (+e.innerText > 0 && +e.innerText < 5) {
+            e.setAttribute('data-red', 'red');
+        } else if (+e.innerText == 0) {
+            e.setAttribute('data-red', 'red');
+            e.innerText = 'N/R';
+        }
+    });
+}
+
+function renderCategory(e) {
+    const popular = document.getElementById('popular');
+    const topWeek = document.getElementById('topWeek');
+    if (e.target == popular) {
+        getPopularMovies(TOP_RAITED_URL);
+    } else if (e.target == topWeek) {
+        getPopularMovies(POPULAR_URL);
+    }
+}
+
+const labelInputs = document.querySelector('.labelInputs');
+
+labelInputs.addEventListener('click', renderCategory);
+
+searchInput.addEventListener('keydown', findMovies);
+
+function findMovies(e) {
+    const FIND_MOVIE = BASE_URL + '/search/movie' + '?' + API_KEY + `&query=${searchInput.value}`;
+
+    if (e.key === 'Enter') {
+        getLookingMovies(FIND_MOVIE);
+    }
+}
+
+function getLookingMovies(url) {
+    fetch(url).then(res => res.json()).then(data => {
+        console.log('find', data);
+        showLookingMovies(data.results);
+    });
+}
+
+function showLookingMovies(data) {
+    LOOKING_MOVIES_LIST.innerHTML = '';
+
+    data.forEach(movie => {
+        const { title, poster_path, vote_average } = movie;
+        const movieEl = document.createElement('li');
+        movieEl.classList.add('looking-films-item');
+        movieEl.innerHTML = /*html*/`
+            <div>
+                <div class="looking-film-rating">
+                    <div class="looking-film-rating-inner">
+                        <h3 class="looking-film-rating-text">${vote_average}</h3>
+                    </div>
+
+                </div>
+
+                <img src="${POSTER_URL + poster_path}" alt="${title}">
+
+                <div class="looking-film-overview">
+                    <h2>"${title}"</h2>
+                </div>
+            </div>
+        `;
+        LOOKING_MOVIES_LIST.append(movieEl);
+        setColorRaitingLooking();
+    });
+}
+
+function setColorRaitingLooking() {
+    const LOOKING_TITLE = document.querySelectorAll('.looking-film-rating-text');
+
+    LOOKING_TITLE.forEach(e => {
         if (+e.innerText >= 8 && +e.innerText < 10) {
             e.setAttribute('data-green', 'green');
         } else if (+e.innerText >= 5 && +e.innerText < 8) {

@@ -12,6 +12,10 @@
     --conic-gradient-red: rgb(255, 0, 0);
 }
 
+* {
+    transition: all 0.4s;
+}
+
 [data-green="green"] {
     color: var(--conic-gradient-green);
 }
@@ -49,6 +53,16 @@ body {
     z-index: 5;
     top: 30px;
     left: 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.home-page > i {
+    color: var(--text-color)
 }
 
 ::placeholder {
@@ -238,4 +252,11 @@ body {
 
 .popular-film-overview {
     text-align: center;
+}
+
+/* looking movies */
+
+.looking-movies-list {
+    display: flex;
+    flex-wrap: wrap;
 }

@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
     <link rel="stylesheet" href="./css/app.css">
 
-    <script defer src="./js/app.js" type="module"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/f515da9d3e.js" crossorigin="anonymous"></script>
+    <script src="./js/app.js" type="module"></script>
 
     <title>Cinema Data Base</title>
 </head>
@@ -22,93 +24,40 @@
             <form action="javascript:">
                 <input class="search" type="text" placeholder="Search">
             </form>
+
+            <div class="home-page">
+                <a href="./index.html">
+                    <i class="fa-solid fa-house fa-2xl"></i>
+                </a>
+            </div>
         </header>
 
         <main id="main">
             <section class="new-films">
                 <ul class="new-films-list swiper-wrapper">
-                    <li class="new-films-item swiper-slide">
-                        <!-- <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                        <h2></h2> -->
-                    </li>
+
                 </ul>
             </section>
 
             <section class="popular-films">
                 <ul class="popular-films-list swiper-wrapper">
-                    <!-- <li class="popular-films-item swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li>
 
-                    <li class="popular-films-item swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li>
-
-                    <li class="popular-films-item swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li>
-
-                    <li class="popular-films-item swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li>
-
-                    <li class="popular-films-item swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li>
-
-                    <li class="popular-films-item swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li>
-
-                    <li class="popular-films-item swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li>
-
-                    <li class="popular-films-item  swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li> -->
                 </ul>
+                <label for="movies" class="labelInputs">
+                    <input id="topWeek" type="radio" name="movies" checked>
+                    <input id="popular" type="radio" name="movies">
+                </label>
             </section>
 
-            <section class="top-week-films">
-                <ul class="top-week-films-list swiper-wrapper">
-                    <li class="top-week-films-item swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li>
-
-                    <li class="top-week-films-item swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li>
-
-                    <li class="top-week-films-item swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li>
-
-                    <li class="top-week-films-item swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li>
-
-                    <li class="top-week-films-item swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li>
-
-                    <li class="top-week-films-item swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li>
-
-                    <li class="top-week-films-item swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li>
-
-                    <li class="top-week-films-item swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li>
-
-                    <li class="top-week-films-item swiper-slide">
-                        <img src="./images/зображення_viber_2020-11-11_16-47-17.jpg" alt="">
-                    </li>
+            <section class="looking-movies">
+                <ul class="looking-movies-list">
+                    <li class="looking-movies-item"></li>
+                    <li class="looking-movies-item"></li>
+                    <li class="looking-movies-item"></li>
                 </ul>
+                <button class="show-more">show more movies</button>
             </section>
+
         </main>
 
         <footer id="footer">
@@ -120,7 +69,6 @@
         </footer>
     </wrapper>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 </body>
 
 </html>
