@@ -53,12 +53,26 @@ body {
     z-index: 5;
     top: 30px;
     left: 20px;
+    height: 70px;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-right: 20px;
     margin-left: 20px;
+}
+
+.home-page {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    right: 0;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.374);
 }
 
 .home-page > i {
@@ -72,7 +86,7 @@ body {
 .search {
     font-family: var(--font-family);
     font-size: 20px;
-    background-color: transparent;
+    background: rgba(255, 255, 255, 0.227);
     color: var(--text-color);
     width: 200px;
     height: 20px;
@@ -112,7 +126,7 @@ body {
 
 .new-films {
     position: relative;
-    top: -40px;
+    top: -70px;
 }
 
 .new-films::before {
@@ -224,7 +238,8 @@ body {
     padding-bottom: 15px;
 }
 
-.popular-films-item > div {
+.popular-films-item > div,
+.looking-films-item > div {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -233,7 +248,8 @@ body {
     height: 100%;
 }
 
-.popular-film-rating {
+.popular-film-rating,
+.looking-film-rating {
     position: absolute;
     display: flex;
     justify-content: center;
@@ -254,9 +270,59 @@ body {
     text-align: center;
 }
 
+#topWeek {
+    width: 50%;
+    background-color: aqua;
+}
+
+#popular {
+    width: 50%;
+    background: rgba(255, 0, 255, 0.306);
+}
+
+.labelInputs {
+    display: flex;
+    width: 300px;
+    height: 50px;
+}
+
 /* looking movies */
+
+.looking-movies {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 .looking-movies-list {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
+    row-gap: 15px;
+    column-gap: 10px;
+    width: 100%;
+}
+
+.looking-films-item {
+    width: 200px;
+    background-color: var(--focus-color);
+}
+
+.looking-films-item img {
+    width: 100%;
+}
+
+.looking-film-overview h2 {
+    text-align: center;
+}
+
+.show-more {
+    width: 200px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(164, 99, 99);
+    cursor: pointer;
+    visibility: hidden;
 }

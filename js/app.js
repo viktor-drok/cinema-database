@@ -12,7 +12,12 @@ const POSTER_URL = 'https://image.tmdb.org/t/p/w500';
 const NEW_FILM_LIST = document.querySelector('.new-films-list');
 const POPULAR_FILM_LIST = document.querySelector('.popular-films-list');
 const LOOKING_MOVIES_LIST = document.querySelector('.looking-movies-list');
-let searchInput = document.querySelector('.search');
+const searchInput = document.querySelector('.search');
+const nextPageBtn = document.querySelector('.show-more');
+
+
+let currentPage = 1;
+let searchQuery = '';
 
 let swiperPopular;
 
@@ -141,25 +146,31 @@ const labelInputs = document.querySelector('.labelInputs');
 
 labelInputs.addEventListener('click', renderCategory);
 
-searchInput.addEventListener('keydown', findMovies);
-
-function findMovies(e) {
-    const FIND_MOVIE = BASE_URL + '/search/movie' + '?' + API_KEY + `&query=${searchInput.value}`;
-
+searchInput.addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') {
-        getLookingMovies(FIND_MOVIE);
-    }
-}
+        searchQuery = searchInput.value;
+        await findMovies();
 
-function getLookingMovies(url) {
-    fetch(url).then(res => res.json()).then(data => {
+        LOOKING_MOVIES_LIST.scrollIntoView({ behavior: 'smooth' });
+    }
+});
+
+nextPageBtn.addEventListener('click', (e) => {
+    currentPage++;
+    findMovies();
+});
+
+function findMovies() {
+    const url = `${BASE_URL}/search/movie?${API_KEY}&query=${searchQuery}&page=${currentPage}`;
+
+    return fetch(url).then(res => res.json()).then(data => {
         console.log('find', data);
-        showLookingMovies(data.results);
+        showFoundMovies(data.results);
     });
 }
 
-function showLookingMovies(data) {
-    LOOKING_MOVIES_LIST.innerHTML = '';
+function showFoundMovies(data) {
+    LOOKING_MOVIES_LIST.innerHTML += '';
 
     data.forEach(movie => {
         const { title, poster_path, vote_average } = movie;
@@ -174,7 +185,7 @@ function showLookingMovies(data) {
 
                 </div>
 
-                <img src="${POSTER_URL + poster_path}" alt="${title}">
+                <img src="${(poster_path != null) ? POSTER_URL + poster_path : 'https://via.placeholder.com/400x600'}" alt="${title}">
 
                 <div class="looking-film-overview">
                     <h2>"${title}"</h2>
@@ -182,6 +193,8 @@ function showLookingMovies(data) {
             </div>
         `;
         LOOKING_MOVIES_LIST.append(movieEl);
+        nextPageBtn.style.visibility = 'visible';
+
         setColorRaitingLooking();
     });
 }
