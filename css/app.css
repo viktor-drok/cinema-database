@@ -62,19 +62,31 @@ body {
     margin-left: 20px;
 }
 
+.scroll-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+}
+
 .home-page {
     position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.scroll-top,
+.home-page {
     display: flex;
     align-items: center;
     justify-content: center;
-    top: 0;
-    right: 0;
     width: 70px;
     height: 70px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.374);
+    cursor: pointer;
 }
 
+.scroll-top > i,
 .home-page > i {
     color: var(--text-color)
 }
@@ -256,7 +268,7 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
     height: 100%;
 }
@@ -279,7 +291,10 @@ body {
     border-radius: 10px 10px 0 0;
 }
 
-.popular-film-overview {
+.popular-film-overview,
+.looking-film-overview {
+    flex-grow: 1;
+    margin-top: 15px;
     text-align: center;
 }
 
@@ -326,20 +341,41 @@ body {
 }
 
 .looking-movies-list {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     row-gap: 15px;
     column-gap: 10px;
     width: 100%;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
+
+/* .looking-movies-list::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10vh;
+    background: rgb(2, 0, 36);
+    background: linear-gradient(0deg, rgba(2, 0, 36, 1) 0%, rgba(0, 0, 0, 0.5662640056022409) 50%, rgba(255, 255, 255, 0) 100%);
+}
+
+.looking-movies-list:hover::after {
+    background: rgba(2, 0, 36, 0.172);
+    background: linear-gradient(0deg, rgba(2, 0, 36, 0.261) 0%, rgba(0, 0, 0, 0.261) 50%, rgba(255, 255, 255, 0) 100%);
+} */
 
 .looking-films-item {
     width: 200px;
     background-color: var(--focus-color);
+    border-radius: 10px;
 }
 
 .looking-films-item img {
+    border-radius: 10px 10px 0 0;
     width: 100%;
 }
 
@@ -353,9 +389,18 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(164, 99, 99);
+    background-color: var(--focus-color);
+    border-radius: 10px;
     cursor: pointer;
     visibility: hidden;
+}
+
+.show-more:hover {
+    background-color: #5d7c6141;
+}
+
+.show-more:active {
+    transform: scale(0.9);
 }
 
 /* The Overlay */

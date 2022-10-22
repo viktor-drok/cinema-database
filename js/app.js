@@ -1,4 +1,3 @@
-import './expose.js';
 import { swiperHero } from "./swiper-hero.js";
 import { makeSwiperPopular } from "./swiper-popular.js";
 import { videoSwiper } from './videos-swiper.js';
@@ -22,13 +21,37 @@ const selectedInput = document.querySelector('.selected-input');
 const overlay = document.getElementById('myNav');
 const closeModal = document.querySelector('.closebtn');
 const overlayContent = document.querySelector('.overlay-content .swiper-wrapper');
+const scrollTopBtn = document.querySelector('.scroll-top');
 
 let currentPage = 1;
 let searchQuery = '';
-
 let swiperPopular;
 
+scrollTopBtn.addEventListener('click', () => {
+    window.scroll({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+closeModal.addEventListener('click', closeNav);
+searchInput.addEventListener('keydown', async (e) => {
+    if (e.key === 'Enter') {
+        currentPage = 1;
+        LOOKING_MOVIES_LIST.innerHTML = '';
+        searchQuery = searchInput.value;
+        await findMovies();
+
+        LOOKING_MOVIES_LIST.scrollIntoView({ behavior: 'smooth' });
+    }
+});
+nextPageBtn.addEventListener('click', () => {
+    currentPage++;
+    findMovies();
+});
+formMovies.addEventListener('click', renderCategory);
+
 getNewMovies(NEW_FILMS_URL);
+getPopularMovies(POPULAR_URL);
 
 function getNewMovies(url) {
     fetch(url).then(res => res.json()).then(data => {
@@ -68,6 +91,7 @@ function showNewMovies(data) {
         `;
         NEW_FILM_LIST.append(movieEl);
         setRatingColor();
+
         document.getElementById(id).addEventListener('click', () => {
             console.log(id);
             openNav(movie);
@@ -96,13 +120,12 @@ function openNav(movie) {
                 overlayContent.innerHTML = embedVideo.join('');
             } else {
                 overlay.style.width = "100%";
-                overlayContent.innerHTML = 'Videos not Found';
+                overlayContent.innerHTML = 'Video not Found';
+                overlayContent.style.fontSize = '60px';
             }
         }
     });
 }
-
-closeModal.addEventListener('click', closeNav);
 
 function closeNav() {
     overlay.style.width = "0%";
@@ -122,8 +145,6 @@ function setRatingColor() {
     });
 }
 
-getPopularMovies(POPULAR_URL);
-
 function getPopularMovies(url) {
     fetch(url).then(res => res.json()).then(data => {
         console.log('popular', data);
@@ -141,7 +162,7 @@ function showPopularMovies(data) {
         const movieEl = document.createElement('li');
         movieEl.classList.add('popular-films-item', 'swiper-slide');
         movieEl.innerHTML = /*html*/`
-            <div>
+            <div id="${id}">
                 <div class="popular-film-rating">
                     <div class="popular-film-rating-inner">
                         <h3 class="popular-film-rating-text">${vote_average}</h3>
@@ -158,6 +179,11 @@ function showPopularMovies(data) {
         `;
         POPULAR_FILM_LIST.append(movieEl);
         setColorRaitingPopular();
+        document.getElementById(id).addEventListener('click', (e) => {
+            if (e.target.closest('li')) {
+                openNav(movie);
+            }
+        });
     });
 }
 
@@ -178,22 +204,6 @@ function setColorRaitingPopular() {
     });
 }
 
-searchInput.addEventListener('keydown', async (e) => {
-    if (e.key === 'Enter') {
-        currentPage = 1;
-        LOOKING_MOVIES_LIST.innerHTML = '';
-        searchQuery = searchInput.value;
-        await findMovies();
-
-        LOOKING_MOVIES_LIST.scrollIntoView({ behavior: 'smooth' });
-    }
-});
-
-nextPageBtn.addEventListener('click', () => {
-    currentPage++;
-    findMovies();
-});
-
 function findMovies() {
     const url = `${BASE_URL}/search/movie?${API_KEY}&query=${searchQuery}&page=${currentPage}`;
 
@@ -207,11 +217,11 @@ function showFoundMovies(data) {
     LOOKING_MOVIES_LIST.innerHTML += '';
 
     data.forEach(movie => {
-        const { title, poster_path, vote_average } = movie;
+        const { title, poster_path, vote_average, id } = movie;
         const movieEl = document.createElement('li');
         movieEl.classList.add('looking-films-item');
         movieEl.innerHTML = /*html*/`
-            <div>
+            <div id="${id}">
                 <div class="looking-film-rating">
                     <div class="looking-film-rating-inner">
                         <h3 class="looking-film-rating-text">${vote_average}</h3>
@@ -230,6 +240,12 @@ function showFoundMovies(data) {
         nextPageBtn.style.visibility = 'visible';
 
         setColorRaitingLooking();
+
+        document.getElementById(id).addEventListener('click', (e) => {
+            if (e.target.closest('li')) {
+                openNav(movie);
+            }
+        });
     });
 }
 
@@ -263,6 +279,3 @@ function renderCategory(e) {
         console.log(error.name);
     }
 }
-
-formMovies.addEventListener('click', renderCategory);
-
