@@ -1,6 +1,6 @@
 export const videoSwiper = new Swiper(".overlay-content", {
     slidesPerView: 1,
-    spaceBetween: 30,
+    spaceBetween: 100,
     centeredSlides: true,
     slidesPerView: 1,
     navigation: {
