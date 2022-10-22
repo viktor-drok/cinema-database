@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
     <link rel="stylesheet" href="./css/app.css">
 
-    <script defer src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/f515da9d3e.js" crossorigin="anonymous"></script>
     <script src="./js/app.js" type="module"></script>
 
@@ -32,6 +32,23 @@
             </div>
         </header>
 
+        <!-- The overlay -->
+        <div id="myNav" class="overlay">
+
+            <!-- Button to close the overlay navigation -->
+            <div class="closebtn">&times;</div>
+
+            <!-- Overlay content -->
+            <div class="overlay-content">
+                <div class="overlay-content-list swiper-wrapper">
+
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+
+        </div>
+
         <main id="main">
             <section class="new-films">
                 <ul class="new-films-list swiper-wrapper">
@@ -40,16 +57,23 @@
             </section>
 
             <section class="popular-films">
+                <form action="javascript:" id="movies">
+                    <div class="selected-input"></div>
+                    <label for="topWeek" class="topWeek">
+                        <span>Popular Movies</span>
+                    </label>
+                    <input id="topWeek" type="radio" name="movies" value="Top This Week" checked hidden>
+
+                    <label for="popular" class="popular">
+                        <span>Top Raited Movies</span>
+
+                    </label>
+                    <input id="popular" type="radio" name="movies" value="Most Popular Movies" hidden>
+                </form>
+
                 <ul class="popular-films-list swiper-wrapper">
 
                 </ul>
-
-                <label for="movies" class="labelInputs">
-                    <div class="topWeek"></div>
-                    <div class="popular"></div>
-                    <input id="topWeek" type="radio" name="movies" value="topWeek" checked>
-                    <input id="popular" type="radio" name="movies" value="popular">
-                </label>
             </section>
 
             <section class="looking-movies">
@@ -63,9 +87,11 @@
 
         <footer id="footer">
             <div>
-                <svg class="icon">
-                    <use xlink:href="./images/sprites/sprite.svg#tmdb"></use>
-                </svg>
+                <a href="https://www.themoviedb.org/" target="_blank">
+                    <svg class="icon">
+                        <use xlink:href="./images/sprites/sprite.svg#tmdb"></use>
+                    </svg>
+                </a>
             </div>
         </footer>
     </wrapper>

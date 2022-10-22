@@ -1,6 +1,7 @@
 import './expose.js';
 import { swiperHero } from "./swiper-hero.js";
 import { makeSwiperPopular } from "./swiper-popular.js";
+import { videoSwiper } from './videos-swiper.js';
 
 const API_KEY = 'api_key=bfdccbc25c964210432d186c297791bf';
 const BASE_URL = 'https://api.themoviedb.org/3'; ///discover/movie/
@@ -14,7 +15,13 @@ const POPULAR_FILM_LIST = document.querySelector('.popular-films-list');
 const LOOKING_MOVIES_LIST = document.querySelector('.looking-movies-list');
 const searchInput = document.querySelector('.search');
 const nextPageBtn = document.querySelector('.show-more');
-
+const formMovies = document.getElementById('movies');
+const popular = document.getElementById('popular');
+const topWeek = document.getElementById('topWeek');
+const selectedInput = document.querySelector('.selected-input');
+const overlay = document.getElementById('myNav');
+const closeModal = document.querySelector('.closebtn');
+const overlayContent = document.querySelector('.overlay-content .swiper-wrapper');
 
 let currentPage = 1;
 let searchQuery = '';
@@ -35,7 +42,7 @@ function showNewMovies(data) {
     NEW_FILM_LIST.innerHTML = '';
 
     data.forEach(movie => {
-        const { title, poster_path, vote_average, overview } = movie;
+        const { title, poster_path, vote_average, overview, id } = movie;
         const movieEl = document.createElement('li');
         movieEl.classList.add('new-films-item', 'swiper-slide');
         movieEl.innerHTML = /*html*/ `
@@ -50,16 +57,55 @@ function showNewMovies(data) {
                 <img src="${POSTER_URL + poster_path}" alt="${title}">
 
                 <div class="new-film-overview">
-                    <h2>"${title}"</h2>
-                    <h4>Overview</h4>
-                    </br>
-                    <p>${overview}</p>
+                <h2>"${title}"</h2>
+                <h4>Overview</h4>
+                </br>
+                <p>${overview}</p>
+                </br>
+                <div class="show-trailer" id="${id}">Watch Trailer</div>
                 </div>
             </div>
         `;
         NEW_FILM_LIST.append(movieEl);
         setRatingColor();
+        document.getElementById(id).addEventListener('click', () => {
+            console.log(id);
+            openNav(movie);
+        });
     });
+}
+
+function openNav(movie) {
+    let id = movie.id;
+    fetch(BASE_URL + '/movie/' + id + '/videos?' + API_KEY).then(res => res.json()).then(videoData => {
+        console.log(videoData);
+        if (videoData) {
+            overlay.style.width = "100%";
+            if (videoData.results.length > 0) {
+                const embedVideo = [];
+                videoData.results.forEach(video => {
+                    const { key, name, site } = video;
+
+                    if (site == 'YouTube')
+                        embedVideo.push(`
+                        <iframe class="swiper-slide overlay-content-item" width="560" height="315" src="https://www.youtube.com/embed/${key}" title="${name}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                        </iframe>
+                    `);
+                });
+
+                overlayContent.innerHTML = embedVideo.join('');
+            } else {
+                overlay.style.width = "100%";
+                overlayContent.innerHTML = 'Videos not Found';
+            }
+        }
+    });
+}
+
+closeModal.addEventListener('click', closeNav);
+
+function closeNav() {
+    overlay.style.width = "0%";
 }
 
 function setRatingColor() {
@@ -91,7 +137,7 @@ function showPopularMovies(data) {
     POPULAR_FILM_LIST.innerHTML = '';
 
     data.forEach(movie => {
-        const { title, poster_path, vote_average } = movie;
+        const { title, poster_path, vote_average, id } = movie;
         const movieEl = document.createElement('li');
         movieEl.classList.add('popular-films-item', 'swiper-slide');
         movieEl.innerHTML = /*html*/`
@@ -132,22 +178,10 @@ function setColorRaitingPopular() {
     });
 }
 
-function renderCategory(e) {
-    const popular = document.getElementById('popular');
-    const topWeek = document.getElementById('topWeek');
-    if (e.target == popular) {
-        getPopularMovies(TOP_RAITED_URL);
-    } else if (e.target == topWeek) {
-        getPopularMovies(POPULAR_URL);
-    }
-}
-
-const labelInputs = document.querySelector('.labelInputs');
-
-labelInputs.addEventListener('click', renderCategory);
-
 searchInput.addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') {
+        currentPage = 1;
+        LOOKING_MOVIES_LIST.innerHTML = '';
         searchQuery = searchInput.value;
         await findMovies();
 
@@ -155,7 +189,7 @@ searchInput.addEventListener('keydown', async (e) => {
     }
 });
 
-nextPageBtn.addEventListener('click', (e) => {
+nextPageBtn.addEventListener('click', () => {
     currentPage++;
     findMovies();
 });
@@ -215,3 +249,20 @@ function setColorRaitingLooking() {
         }
     });
 }
+
+function renderCategory(e) {
+    try {
+        if (e.target == popular) {
+            selectedInput.style.transform = 'translateX(100%)';
+            getPopularMovies(TOP_RAITED_URL);
+        } else if (e.target == topWeek) {
+            selectedInput.style.transform = 'translateX(0)';
+            getPopularMovies(POPULAR_URL);
+        }
+    } catch (error) {
+        console.log(error.name);
+    }
+}
+
+formMovies.addEventListener('click', renderCategory);
+
