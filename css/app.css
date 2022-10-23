@@ -471,3 +471,14 @@ iframe {
         right: 35px;
     }
 }
+
+/* star rating */
+
+.star-rating {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    margin-top: 50px;
+}

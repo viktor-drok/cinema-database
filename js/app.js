@@ -26,6 +26,8 @@ const scrollTopBtn = document.querySelector('.scroll-top');
 let currentPage = 1;
 let searchQuery = '';
 let swiperPopular;
+let rateValue = { value: 0 };
+let movieId;
 
 scrollTopBtn.addEventListener('click', () => {
     window.scroll({
@@ -94,6 +96,7 @@ function showNewMovies(data) {
 
         document.getElementById(id).addEventListener('click', () => {
             console.log(id);
+            movieId = id;
             openNav(movie);
         });
     });
@@ -279,3 +282,54 @@ function renderCategory(e) {
         console.log(error.name);
     }
 }
+
+// fetch('https://api.themoviedb.org/3/movie/616820/rating?api_key=bfdccbc25c964210432d186c297791bf', {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({ value: 8 }),
+// }).then((response) => response.json())
+//     .then((data) => {
+//         console.log('Success:', { value: 8 });
+//     })
+//     .catch((error) => {
+//         console.error('Error:', error);
+//     });
+
+
+function rateMovie(movieId) {
+    const URL = BASE_URL + '/movie/' + movieId + '/rating?' + API_KEY;
+
+    fetch(URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(rateValue),
+    }).then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            confirm(`You Want Rate The Movie ${rateValue.value} points`);
+            console.log('Success:', rateValue);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+const pathColor = document.querySelectorAll('.path');
+
+pathColor.forEach((path, i) => {
+    path.addEventListener('click', () => {
+        let currentStar = i + 1;
+        rateValue.value = currentStar * 2;
+        console.log('star', currentStar);
+        pathColor.forEach((star, j) => {
+            star.style.fill = (currentStar >= j + 1) ? 'red' : 'yellow';
+            // if (currentStar >= j + 1) {
+            //     star.style.fill = 'red';
+            //     star.style.transition = '0.4s';
+            // } else {
+            //     star.style.fill = 'yellow';
+            // }
+        });
+        rateMovie(movieId);
+    });
+});
