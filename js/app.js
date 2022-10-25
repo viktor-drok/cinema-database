@@ -4,9 +4,9 @@ import { videoSwiper } from './videos-swiper.js';
 
 const API_KEY = 'api_key=bfdccbc25c964210432d186c297791bf';
 const BASE_URL = 'https://api.themoviedb.org/3'; ///discover/movie/
-const NEW_FILMS_URL = BASE_URL + '/movie/now_playing' + '?' + API_KEY;
-const TOP_RAITED_URL = BASE_URL + '/movie/top_rated' + '?' + API_KEY;
-const POPULAR_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+const NEW_FILMS_URL = BASE_URL + '/movie/upcoming?' + API_KEY;
+const TOP_RAITED_URL = BASE_URL + '/movie/top_rated?' + API_KEY;
+const POPULAR_URL = BASE_URL + '/movie/popular?' + API_KEY + '&page=3';
 const POSTER_URL = 'https://image.tmdb.org/t/p/w500';
 
 const NEW_FILM_LIST = document.querySelector('.new-films-list');
@@ -113,11 +113,18 @@ function openNav(movie) {
                 videoData.results.forEach(video => {
                     const { key, name, site } = video;
 
-                    if (site == 'YouTube')
+                    if (site == 'YouTube') {
                         embedVideo.push(`
                         <iframe class="swiper-slide overlay-content-item" width="560" height="315" src="https://www.youtube.com/embed/${key}" title="${name}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                         </iframe>
                     `);
+                    };
+
+                    if (site == 'Vimeo') {
+                        embedVideo.push(`
+                        <iframe src="https://player.vimeo.com/video/${key}" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                    `);
+                    };
                 });
 
                 overlayContent.innerHTML = embedVideo.join('');
@@ -136,14 +143,15 @@ function closeNav() {
 
 function setRatingColor() {
     const RATING = document.querySelectorAll('.new-film-rating');
+    const ratingCount = document.querySelector('.new-film-rating-text');
 
-    RATING.forEach(e => {
+    RATING.forEach((e, i) => {
         if (+e.innerText >= 8 && +e.innerText < 10) {
-            e.setAttribute('data-conic-green', 'green');
+            e.style.background = `conic-gradient(rgb(0, 128, 0) ${Number(e.innerText * 36)}deg, rgb(183, 186, 205) 0deg)`;
         } else if (+e.innerText >= 5 && +e.innerText < 8) {
-            e.setAttribute('data-conic-yellow', 'yellow');
+            e.style.background = `conic-gradient(rgb(255, 255, 0) ${Number(e.innerText * 36)}deg, rgb(183, 186, 205) 0deg)`;
         } else if (+e.innerText >= 0 && +e.innerText < 5) {
-            e.setAttribute('data-conic-red', 'red');
+            e.style.background = `conic-gradient(rgb(255, 0, 0) ${Number(e.innerText * 36)}deg, rgb(183, 186, 205) 0deg)`;
         }
     });
 }
@@ -333,3 +341,33 @@ pathColor.forEach((path, i) => {
         rateMovie(movieId);
     });
 });
+
+// let token = getToken();
+
+// async function getToken() {
+//     return await fetch('https://api.themoviedb.org/3/authentication/token/new?api_key=bfdccbc25c964210432d186c297791bf').then((response) => response.json()).then((data) => {
+//         token = data.request_token;
+//         console.log(data);
+//     });
+// }
+
+// requestToken(token);
+
+// async function requestToken(token) {
+//     let headers = {
+//         "content-type": "application/json;charset=utf-8",
+//         "authorization": `${token}`
+//     };
+
+//     let str = JSON.stringify(headers);
+//     return await fetch('https://api.themoviedb.org/4/auth/access_token?api_key=bfdccbc25c964210432d186c297791bf', {
+//         method: "POST",
+//         headers: str,
+//         body: {
+//             "request_token": "eyJhbGciOiJsUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE0NzIwNzYxMjAsInZlcnNpb24iOjEsImV4cCI6MTQ3MjA3NzAyMCwiYdRkIjoiM2Y4Nzg1N2JlMjA5ZDM1MTk4MzNiMzAwYTEzZDBlMTIiSqJzY29wZXMiOlsicGVuZGluZ19yZXF1ZXN0X3Rva2VuIl0sImp0USI6MTB9.Rt-xi8wfscw2_P09T4BuxxUJtF7XReqKODh2HW61FIY"
+//         }
+//     }).then((response) => response.json())
+//         .then((data) => {
+//             console.log(data);
+//         });
+// }
