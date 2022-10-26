@@ -69,14 +69,16 @@ body {
     right: 30px;
 }
 
-.home-page {
+.home-page,
+.guest-session-page {
     position: absolute;
     top: 0;
     right: 0;
 }
 
 .scroll-top,
-.home-page {
+.home-page,
+.guest-session-page {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -85,6 +87,11 @@ body {
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.374);
     cursor: pointer;
+}
+
+.guest-session-page {
+    right: 80px;
+    color: #fff;
 }
 
 .scroll-top > i,
@@ -200,6 +207,13 @@ body {
     transition: all 0.3s;
 }
 
+.popular-film-overview,
+.looking-film-overview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .new-film-overview h4 {
     font-size: 30px;
     font-weight: 700;
@@ -227,8 +241,6 @@ body {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-
-    /* background: conic-gradient(var(--conic-gradient-green) 216deg, rgb(183, 186, 205) 0deg); */
 }
 
 .new-film-rating-inner {
@@ -284,7 +296,9 @@ body {
     right: 0;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 0 8px 0 10px;
+    background: var(--focus-color);
+    box-sizing: border-box;
 }
 
 .popular-films-item img {
@@ -352,22 +366,6 @@ body {
     margin-top: 30px;
     margin-bottom: 30px;
 }
-
-/* .looking-movies-list::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 10vh;
-    background: rgb(2, 0, 36);
-    background: linear-gradient(0deg, rgba(2, 0, 36, 1) 0%, rgba(0, 0, 0, 0.5662640056022409) 50%, rgba(255, 255, 255, 0) 100%);
-}
-
-.looking-movies-list:hover::after {
-    background: rgba(2, 0, 36, 0.172);
-    background: linear-gradient(0deg, rgba(2, 0, 36, 0.261) 0%, rgba(0, 0, 0, 0.261) 50%, rgba(255, 255, 255, 0) 100%);
-} */
 
 .looking-films-item {
     width: 200px;

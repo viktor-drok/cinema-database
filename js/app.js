@@ -28,6 +28,8 @@ let searchQuery = '';
 let swiperPopular;
 let rateValue = { value: 0 };
 let movieId;
+let guestSessionId = '';
+console.log('guestSessionId:', guestSessionId);
 
 scrollTopBtn.addEventListener('click', () => {
     window.scroll({
@@ -321,6 +323,11 @@ function rateMovie(movieId) {
         });
 }
 
+// function conf() {
+//     if (confirm('hello')) { return 5; }
+//     else { return 1; }
+// }
+
 const pathColor = document.querySelectorAll('.path');
 
 pathColor.forEach((path, i) => {
@@ -328,6 +335,31 @@ pathColor.forEach((path, i) => {
         let currentStar = i + 1;
         rateValue.value = currentStar * 2;
         console.log('star', currentStar);
+        switch (currentStar) {
+
+            case 1:
+                console.log('1');
+                break;
+
+            case 2:
+                console.log('2');
+                break;
+
+            case 3:
+                console.log('3');
+                break;
+
+            case 4:
+                console.log('4');
+                break;
+
+            case 5:
+                console.log('5');
+                break;
+
+            default:
+                break;
+        }
         pathColor.forEach((star, j) => {
             star.style.fill = (currentStar >= j + 1) ? 'red' : 'yellow';
         });
@@ -335,11 +367,8 @@ pathColor.forEach((path, i) => {
     });
 });
 
-let guestSessionId;
-getGuestSession();
-
 async function getGuestSession() {
-    return await fetch('https://api.themoviedb.org/3/authentication/guest_session/new?api_key=bfdccbc25c964210432d186c297791bf').then((response) => response.json())
+    return await fetch(`${BASE_URL}/authentication/guest_session/new?${API_KEY}`).then((response) => response.json())
         .then((data) => {
             guestSessionId = data.guest_session_id;
             console.log(data);
@@ -350,3 +379,11 @@ async function getGuestSession() {
             console.error('Error:', error);
         });
 }
+
+const guestPage = document.querySelector('.guest-session-page');
+
+guestPage.addEventListener('click', () => {
+    if (confirm('You want authorize as guest?')) {
+        getGuestSession();
+    }
+});
