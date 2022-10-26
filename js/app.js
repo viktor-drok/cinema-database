@@ -143,9 +143,8 @@ function closeNav() {
 
 function setRatingColor() {
     const RATING = document.querySelectorAll('.new-film-rating');
-    const ratingCount = document.querySelector('.new-film-rating-text');
 
-    RATING.forEach((e, i) => {
+    RATING.forEach(e => {
         if (+e.innerText >= 8 && +e.innerText < 10) {
             e.style.background = `conic-gradient(rgb(0, 128, 0) ${Number(e.innerText * 36)}deg, rgb(183, 186, 205) 0deg)`;
         } else if (+e.innerText >= 5 && +e.innerText < 8) {
@@ -305,7 +304,7 @@ function renderCategory(e) {
 
 
 function rateMovie(movieId) {
-    const URL = BASE_URL + '/movie/' + movieId + '/rating?' + API_KEY;
+    const URL = BASE_URL + '/movie/' + movieId + '/rating?' + API_KEY + '&guest_session_id=' + guestSessionId;
 
     fetch(URL, {
         method: 'POST',
@@ -331,43 +330,23 @@ pathColor.forEach((path, i) => {
         console.log('star', currentStar);
         pathColor.forEach((star, j) => {
             star.style.fill = (currentStar >= j + 1) ? 'red' : 'yellow';
-            // if (currentStar >= j + 1) {
-            //     star.style.fill = 'red';
-            //     star.style.transition = '0.4s';
-            // } else {
-            //     star.style.fill = 'yellow';
-            // }
         });
         rateMovie(movieId);
     });
 });
 
-// let token = getToken();
+let guestSessionId;
+getGuestSession();
 
-// async function getToken() {
-//     return await fetch('https://api.themoviedb.org/3/authentication/token/new?api_key=bfdccbc25c964210432d186c297791bf').then((response) => response.json()).then((data) => {
-//         token = data.request_token;
-//         console.log(data);
-//     });
-// }
+async function getGuestSession() {
+    return await fetch('https://api.themoviedb.org/3/authentication/guest_session/new?api_key=bfdccbc25c964210432d186c297791bf').then((response) => response.json())
+        .then((data) => {
+            guestSessionId = data.guest_session_id;
+            console.log(data);
 
-// requestToken(token);
-
-// async function requestToken(token) {
-//     let headers = {
-//         "content-type": "application/json;charset=utf-8",
-//         "authorization": `${token}`
-//     };
-
-//     let str = JSON.stringify(headers);
-//     return await fetch('https://api.themoviedb.org/4/auth/access_token?api_key=bfdccbc25c964210432d186c297791bf', {
-//         method: "POST",
-//         headers: str,
-//         body: {
-//             "request_token": "eyJhbGciOiJsUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE0NzIwNzYxMjAsInZlcnNpb24iOjEsImV4cCI6MTQ3MjA3NzAyMCwiYdRkIjoiM2Y4Nzg1N2JlMjA5ZDM1MTk4MzNiMzAwYTEzZDBlMTIiSqJzY29wZXMiOlsicGVuZGluZ19yZXF1ZXN0X3Rva2VuIl0sImp0USI6MTB9.Rt-xi8wfscw2_P09T4BuxxUJtF7XReqKODh2HW61FIY"
-//         }
-//     }).then((response) => response.json())
-//         .then((data) => {
-//             console.log(data);
-//         });
-// }
+            console.log('Success:');
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
