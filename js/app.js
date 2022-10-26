@@ -6,7 +6,7 @@ const API_KEY = 'api_key=bfdccbc25c964210432d186c297791bf';
 const BASE_URL = 'https://api.themoviedb.org/3'; ///discover/movie/
 const NEW_FILMS_URL = BASE_URL + '/movie/upcoming?' + API_KEY;
 const TOP_RAITED_URL = BASE_URL + '/movie/top_rated?' + API_KEY;
-const POPULAR_URL = BASE_URL + '/movie/popular?' + API_KEY + '&page=3';
+const POPULAR_URL = BASE_URL + '/movie/popular?' + API_KEY + '&page=2';
 const POSTER_URL = 'https://image.tmdb.org/t/p/w500';
 
 const NEW_FILM_LIST = document.querySelector('.new-films-list');
@@ -16,6 +16,7 @@ const searchInput = document.querySelector('.search');
 const nextPageBtn = document.querySelector('.show-more');
 const formMovies = document.getElementById('movies');
 const popular = document.getElementById('popular');
+const popularFilmTitle = document.querySelector('.popular-film-overview h2');
 const topWeek = document.getElementById('topWeek');
 const selectedInput = document.querySelector('.selected-input');
 const overlay = document.getElementById('myNav');
@@ -185,7 +186,7 @@ function showPopularMovies(data) {
                 <img src="${POSTER_URL + poster_path}" alt="${title}">
 
                 <div class="popular-film-overview">
-                    <h2>"${title}"</h2>
+                    <h2>"${title.replace('/', ' / ')}"</h2>
                 </div>
             </div>
         `;
