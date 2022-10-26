@@ -471,6 +471,17 @@ iframe {
     }
 }
 
+@media screen and (max-width: 960px) {
+    .popular-films {
+        margin: 0 5px;
+    }
+
+    .guest-session-page,
+    .home-page {
+        top: 70px;
+    }
+}
+
 /* star rating */
 
 .star-rating {
