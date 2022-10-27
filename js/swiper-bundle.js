@@ -8390,7 +8390,7 @@
           try {
             swiper.a11y.clicked = false;
           } catch (error) {
-            console.log(error);
+            // console.log(error);
           }
         });
       });

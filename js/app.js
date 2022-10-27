@@ -16,13 +16,14 @@ const searchInput = document.querySelector('.search');
 const nextPageBtn = document.querySelector('.show-more');
 const formMovies = document.getElementById('movies');
 const popular = document.getElementById('popular');
-const popularFilmTitle = document.querySelector('.popular-film-overview h2');
 const topWeek = document.getElementById('topWeek');
 const selectedInput = document.querySelector('.selected-input');
 const overlay = document.getElementById('myNav');
 const closeModal = document.querySelector('.closebtn');
 const overlayContent = document.querySelector('.overlay-content .swiper-wrapper');
 const scrollTopBtn = document.querySelector('.scroll-top');
+const pathColor = document.querySelectorAll('.path');
+const guestPageBtn = document.querySelector('.guest-session-page');
 
 let currentPage = 1;
 let searchQuery = '';
@@ -30,7 +31,6 @@ let swiperPopular;
 let rateValue = { value: 0 };
 let movieId;
 let guestSessionId = '';
-console.log('guestSessionId:', guestSessionId);
 
 scrollTopBtn.addEventListener('click', () => {
     window.scroll({
@@ -54,13 +54,14 @@ nextPageBtn.addEventListener('click', () => {
     findMovies();
 });
 formMovies.addEventListener('click', renderCategory);
+guestPageBtn.addEventListener('click', enterSession);
 
 getNewMovies(NEW_FILMS_URL);
 getPopularMovies(POPULAR_URL);
 
 function getNewMovies(url) {
     fetch(url).then(res => res.json()).then(data => {
-        console.log('new', data);
+        // console.log('new', data);
         showNewMovies(data.results);
     });
 };
@@ -98,7 +99,7 @@ function showNewMovies(data) {
         setRatingColor();
 
         document.getElementById(id).addEventListener('click', () => {
-            console.log(id);
+            // console.log(id);
             movieId = id;
             openNav(movie);
         });
@@ -108,7 +109,7 @@ function showNewMovies(data) {
 function openNav(movie) {
     let id = movie.id;
     fetch(BASE_URL + '/movie/' + id + '/videos?' + API_KEY).then(res => res.json()).then(videoData => {
-        console.log(videoData);
+        // console.log(videoData);
         if (videoData) {
             overlay.style.width = "100%";
             if (videoData.results.length > 0) {
@@ -160,7 +161,7 @@ function setRatingColor() {
 
 function getPopularMovies(url) {
     fetch(url).then(res => res.json()).then(data => {
-        console.log('popular', data);
+        // console.log('popular', data);
         showPopularMovies(data.results);
         swiperPopular?.destroy();
         swiperPopular = makeSwiperPopular();
@@ -221,7 +222,7 @@ function findMovies() {
     const url = `${BASE_URL}/search/movie?${API_KEY}&query=${searchQuery}&page=${currentPage}`;
 
     return fetch(url).then(res => res.json()).then(data => {
-        console.log('find', data);
+        // console.log('find', data);
         showFoundMovies(data.results);
     });
 }
@@ -293,20 +294,7 @@ function renderCategory(e) {
     }
 }
 
-// fetch('https://api.themoviedb.org/3/movie/616820/rating?api_key=bfdccbc25c964210432d186c297791bf', {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify({ value: 8 }),
-// }).then((response) => response.json())
-//     .then((data) => {
-//         console.log('Success:', { value: 8 });
-//     })
-//     .catch((error) => {
-//         console.error('Error:', error);
-//     });
-
-
-function rateMovie(movieId) {
+async function rateMovie(movieId) {
     const URL = BASE_URL + '/movie/' + movieId + '/rating?' + API_KEY + '&guest_session_id=' + guestSessionId;
 
     fetch(URL, {
@@ -315,47 +303,44 @@ function rateMovie(movieId) {
         body: JSON.stringify(rateValue),
     }).then((response) => response.json())
         .then((data) => {
-            console.log(data);
-            confirm(`You Want Rate The Movie ${rateValue.value} points`);
-            console.log('Success:', rateValue);
+            // console.log(statusMessage);
+            // console.log(data);
+            if (confirm(data.status_message)) {
+                // console.log(data.status_message);
+                getGuestSession();
+            }
+            // console.log('Success:', rateValue);
         })
         .catch((error) => {
             console.error('Error:', error);
         });
 }
 
-// function conf() {
-//     if (confirm('hello')) { return 5; }
-//     else { return 1; }
-// }
-
-const pathColor = document.querySelectorAll('.path');
-
 pathColor.forEach((path, i) => {
     path.addEventListener('click', () => {
         let currentStar = i + 1;
         rateValue.value = currentStar * 2;
-        console.log('star', currentStar);
+        // console.log('star', currentStar);
         switch (currentStar) {
 
             case 1:
-                console.log('1');
+                // console.log('1');
                 break;
 
             case 2:
-                console.log('2');
+                // console.log('2');
                 break;
 
             case 3:
-                console.log('3');
+                // console.log('3');
                 break;
 
             case 4:
-                console.log('4');
+                // console.log('4');
                 break;
 
             case 5:
-                console.log('5');
+                // console.log('5');
                 break;
 
             default:
@@ -372,19 +357,21 @@ async function getGuestSession() {
     return await fetch(`${BASE_URL}/authentication/guest_session/new?${API_KEY}`).then((response) => response.json())
         .then((data) => {
             guestSessionId = data.guest_session_id;
-            console.log(data);
-
-            console.log('Success:');
+            // console.log(data);
+            // console.log('Success:');
         })
         .catch((error) => {
             console.error('Error:', error);
         });
 }
 
-const guestPage = document.querySelector('.guest-session-page');
-
-guestPage.addEventListener('click', () => {
+function enterSession() {
     if (confirm('You want authorize as guest?')) {
         getGuestSession();
     }
-});
+    guestPageBtn.removeEventListener('click', enterSession);
+}
+
+function validation() {
+
+}
