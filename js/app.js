@@ -3,7 +3,7 @@ import { makeSwiperPopular } from "./swiper-popular.js";
 import { videoSwiper } from './videos-swiper.js';
 
 const API_KEY = 'api_key=bfdccbc25c964210432d186c297791bf';
-const BASE_URL = 'https://api.themoviedb.org/3'; ///discover/movie/
+const BASE_URL = 'https://api.themoviedb.org/3';
 const NEW_FILMS_URL = BASE_URL + '/movie/upcoming?' + API_KEY;
 const TOP_RAITED_URL = BASE_URL + '/movie/top_rated?' + API_KEY;
 const POPULAR_URL = BASE_URL + '/movie/popular?' + API_KEY + '&page=2';
@@ -86,12 +86,17 @@ function showNewMovies(data) {
                 <img src="${POSTER_URL + poster_path}" alt="${title}">
 
                 <div class="new-film-overview">
-                <h2>"${title}"</h2>
-                <h4>Overview</h4>
-                </br>
-                <p>${overview}</p>
-                </br>
-                <div class="show-trailer" id="${id}">Watch Trailer</div>
+                    <h2>"${title}"</h2>
+
+                    <h4>Overview</h4>
+
+                    </br>
+
+                    <p>${overview}</p>
+
+                    </br>
+                    
+                    <div class="show-trailer" id="${id}">Watch Trailer</div>
                 </div>
             </div>
         `;
@@ -370,8 +375,4 @@ function enterSession() {
         getGuestSession();
     }
     guestPageBtn.removeEventListener('click', enterSession);
-}
-
-function validation() {
-
 }
